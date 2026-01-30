@@ -1,6 +1,7 @@
 from rest_framework import viewsets, permissions, status
 from rest_framework.decorators import action
 from rest_framework.response import Response
+from rest_framework.exceptions import ValidationError
 
 from .serializers import CartSerializer, CartItemChangeSerializer
 from .services import get_or_create_cart, add_item, remove_item, update_item
@@ -18,12 +19,15 @@ class CartViewSet(viewsets.ViewSet):
     def add(self, request):
         serializer = CartItemChangeSerializer(data=request.data)
         serializer.is_valid(raise_exception=True)
-        cart = add_item(
-            request.user,
-            serializer.validated_data["product_id"],
-            serializer.validated_data.get("quantity", 1),
-        )
-        return Response(CartSerializer(cart).data, status=status.HTTP_200_OK)
+        try:
+            cart = add_item(
+                request.user,
+                serializer.validated_data["product_id"],
+                serializer.validated_data.get("quantity", 1),
+            )
+            return Response(CartSerializer(cart).data, status=status.HTTP_200_OK)
+        except ValidationError as e:
+            return Response({"detail": str(e.detail[0])}, status=status.HTTP_400_BAD_REQUEST)
 
     @action(detail=False, methods=["post"], url_path="remove")
     def remove(self, request):
@@ -39,5 +43,8 @@ class CartViewSet(viewsets.ViewSet):
         quantity = serializer.validated_data.get("quantity")
         if quantity is None:
             return Response({"detail": "Quantity is required."}, status=status.HTTP_400_BAD_REQUEST)
-        cart = update_item(request.user, serializer.validated_data["product_id"], quantity)
-        return Response(CartSerializer(cart).data, status=status.HTTP_200_OK)
+        try:
+            cart = update_item(request.user, serializer.validated_data["product_id"], quantity)
+            return Response(CartSerializer(cart).data, status=status.HTTP_200_OK)
+        except ValidationError as e:
+            return Response({"detail": str(e.detail[0])}, status=status.HTTP_400_BAD_REQUEST)

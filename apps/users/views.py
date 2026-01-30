@@ -1,8 +1,13 @@
+from django.views.generic import TemplateView
 from rest_framework import generics, permissions, status
 from rest_framework.response import Response
 
 from .serializers import UserRegisterSerializer, UserProfileSerializer, BalanceTopUpSerializer
 from .services import top_up_balance
+
+
+class APITestView(TemplateView):
+    template_name = "api_test.html"
 
 
 class RegisterView(generics.CreateAPIView):

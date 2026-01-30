@@ -112,8 +112,35 @@ REST_FRAMEWORK = {
 
 SPECTACULAR_SETTINGS = {
     "TITLE": "WB-Tech Shop API",
-    "DESCRIPTION": "REST API for internship test assignment",
+    "DESCRIPTION": """
+    # WB-Tech E-commerce API
+    
+    REST API интернет-магазина с полной поддержкой корзины, заказов и JWT авторизации.
+    
+    ## Основные возможности
+    
+    - **Авторизация**: JWT токены (access + refresh)
+    - **Пользователи**: Регистрация, профиль, баланс
+    - **Товары**: Каталог с описанием, ценой и остатками
+    - **Корзина**: Добавление, удаление, изменение количества
+    - **Заказы**: Оформление с проверкой баланса и остатков
+    - **Логирование**: Успешные заказы логируются в консоль
+    
+    ## Как начать
+    
+    1. **Регистрация**: `POST /api/users/register/`
+    2. **Получить токен**: `POST /api/auth/token/`
+    3. **Пополнить баланс**: `POST /api/users/balance/topup/`
+    4. **Добавить товар в корзину**: `POST /api/cart/add/`
+    5. **Создать заказ**: `POST /api/orders/`
+    
+    ## Авторизация
+    
+    Используйте JWT токен в заголовке: `Authorization: Bearer <access_token>`
+    """,
     "VERSION": "1.0.0",
+    "SERVE_INCLUDE_SCHEMA": False,
+    "COMPONENT_SPLIT_REQUEST": True,
 }
 
 from datetime import timedelta

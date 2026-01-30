@@ -47,6 +47,13 @@ def create_order_from_cart(user) -> Order:
 
     cart.items.all().delete()
 
-    logger.info("Order %s created for user %s, total=%s", order.id, user.id, total)
+    logger.info("=" * 80)
+    logger.info("✅ ORDER CREATED SUCCESSFULLY")
+    logger.info("Order ID: %s", order.id)
+    logger.info("User: %s (ID: %s)", user.username, user.id)
+    logger.info("Total Amount: $%s", total)
+    logger.info("Items: %s", ", ".join([f"{item.product.name} x{item.quantity}" for item in order.items.all()]))
+    logger.info("New User Balance: $%s", user.balance)
+    logger.info("=" * 80)
 
     return order
