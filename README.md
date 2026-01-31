@@ -26,7 +26,7 @@ REST API интернет-магазина и базовый веб-интерф
 ### 1. Клонируйте репозиторий
 
 ```bash
-git clone <repository-url>
+git clone https://github.com/ifde/wbtech
 cd wbtech
 ```
 
@@ -61,6 +61,10 @@ docker-compose exec web python manage.py populate_products
 ![alt text](image-2.png)
 ![alt text](image.png)
 ![alt text](image-3.png)
+
+Видео-демо:     
+
+<video controls src="Screen Recording 2026-01-31 at 8.11.00 AM.mov" title="Title"></video>
 
 ---
 
